@@ -1,0 +1,5 @@
+{
+  "name": "DD Soap",
+  "description": "An artisanal soap shop with Telegram ordering and an AI-powered admin dashboard for managing inventory.",
+  "requestFramePermissions": []
+}
