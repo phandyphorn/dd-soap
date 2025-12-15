@@ -1,7 +1,7 @@
 import { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Product } from '../types';
 import { generateProductDescription } from '../services/geminiService';
-import { Trash2, Edit2, Plus, Wand2, Loader2, Save, X, Upload, Image as ImageIcon, Layers } from 'lucide-react';
+import { Trash2, Edit2, Plus, Wand2, Loader2, Save, X, Upload, Image as ImageIcon, Layers, Globe } from 'lucide-react';
 
 interface AdminPanelProps {
   products: Product[];
@@ -19,10 +19,14 @@ const AdminPanel = ({ products, onAddProduct, onDeleteProduct, onUpdateProduct, 
   // Form State
   const [formData, setFormData] = useState<Partial<Product>>({
     name: '',
+    name_km: '',
     price: 0,
     description: '',
+    description_km: '',
     scent: '',
+    scent_km: '',
     ingredients: '',
+    ingredients_km: '',
     image: 'https://picsum.photos/400/400',
     images: []
   });
@@ -42,10 +46,14 @@ const AdminPanel = ({ products, onAddProduct, onDeleteProduct, onUpdateProduct, 
   const resetForm = () => {
     setFormData({
       name: '',
+      name_km: '',
       price: 0,
       description: '',
+      description_km: '',
       scent: '',
+      scent_km: '',
       ingredients: '',
+      ingredients_km: '',
       image: `https://picsum.photos/400/400?random=${Date.now()}`,
       images: []
     });
@@ -118,10 +126,14 @@ const AdminPanel = ({ products, onAddProduct, onDeleteProduct, onUpdateProduct, 
     const product: Product = {
       id: isEditing || Date.now().toString(),
       name: formData.name,
+      name_km: formData.name_km || '',
       price: formData.price,
       description: formData.description || '',
+      description_km: formData.description_km || '',
       scent: formData.scent || '',
+      scent_km: formData.scent_km || '',
       ingredients: formData.ingredients || '',
+      ingredients_km: formData.ingredients_km || '',
       image: formData.image || 'https://picsum.photos/400/400',
       images: finalImages
     };
@@ -230,21 +242,33 @@ const AdminPanel = ({ products, onAddProduct, onDeleteProduct, onUpdateProduct, 
                   <p className="text-xs text-brand-400 mt-1">These will appear in the product detail gallery.</p>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-brand-700 mb-1">Name</label>
-                <input
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none"
-                  placeholder="e.g. Lavender Mist"
-                  required
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
+              {/* Basic Info */}
+              <div className="bg-brand-50/50 p-4 rounded-xl space-y-3">
+                 <h4 className="text-sm font-bold text-brand-800 flex items-center"><Globe className="w-3 h-3 mr-2"/> Basic Info</h4>
+                 <div>
+                  <label className="block text-xs font-medium text-brand-700 mb-1">Name (English)</label>
+                  <input
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none"
+                    placeholder="e.g. Lavender Mist"
+                    required
+                  />
+                </div>
                 <div>
-                  <label className="block text-sm font-medium text-brand-700 mb-1">Price ($)</label>
+                  <label className="block text-xs font-medium text-brand-700 mb-1">Name (Khmer)</label>
+                  <input
+                    name="name_km"
+                    value={formData.name_km}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none"
+                    placeholder="e.g. សាប៊ូឡាវេនឌ័រ"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-brand-700 mb-1">Price ($)</label>
                   <input
                     name="price"
                     type="number"
@@ -258,31 +282,54 @@ const AdminPanel = ({ products, onAddProduct, onDeleteProduct, onUpdateProduct, 
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-brand-700 mb-1">Scent Profile</label>
-                <input
-                  name="scent"
-                  value={formData.scent}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none"
-                  placeholder="e.g. Vanilla & Oak"
-                />
+              {/* Scent & Ingredients */}
+              <div className="bg-brand-50/50 p-4 rounded-xl space-y-3">
+                <h4 className="text-sm font-bold text-brand-800 flex items-center"><Layers className="w-3 h-3 mr-2"/> Details</h4>
+                <div>
+                  <label className="block text-xs font-medium text-brand-700 mb-1">Scent (En / Km)</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      name="scent"
+                      value={formData.scent}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-brand-200 rounded-lg text-xs"
+                      placeholder="English"
+                    />
+                    <input
+                      name="scent_km"
+                      value={formData.scent_km}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-brand-200 rounded-lg text-xs"
+                      placeholder="Khmer"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-brand-700 mb-1">Ingredients (En / Km)</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      name="ingredients"
+                      value={formData.ingredients}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-brand-200 rounded-lg text-xs"
+                      placeholder="English"
+                    />
+                    <input
+                      name="ingredients_km"
+                      value={formData.ingredients_km}
+                      onChange={handleInputChange}
+                      className="w-full p-2 border border-brand-200 rounded-lg text-xs"
+                      placeholder="Khmer"
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-brand-700 mb-1">Key Ingredients</label>
-                <input
-                  name="ingredients"
-                  value={formData.ingredients}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none"
-                  placeholder="e.g. Shea Butter, Almond Oil"
-                />
-              </div>
-
+              {/* Description */}
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <label className="block text-sm font-medium text-brand-700">Description</label>
+                  <label className="block text-sm font-medium text-brand-700">Description (English)</label>
                   <button
                     type="button"
                     onClick={handleGenerateDescription}
@@ -299,8 +346,18 @@ const AdminPanel = ({ products, onAddProduct, onDeleteProduct, onUpdateProduct, 
                   value={formData.description}
                   onChange={handleInputChange}
                   rows={3}
-                  className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm"
+                  className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm mb-2"
                   placeholder="Description of the soap..."
+                />
+                
+                <label className="block text-sm font-medium text-brand-700 mb-1">Description (Khmer)</label>
+                <textarea
+                  name="description_km"
+                  value={formData.description_km}
+                  onChange={handleInputChange}
+                  rows={3}
+                  className="w-full p-2 border border-brand-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm"
+                  placeholder="ការពិពណ៌នាអំពីសាប៊ូ..."
                 />
               </div>
 
@@ -365,6 +422,7 @@ const AdminPanel = ({ products, onAddProduct, onDeleteProduct, onUpdateProduct, 
                       <h4 className="font-bold text-brand-900 text-lg truncate">{product.name}</h4>
                       <span className="font-serif font-bold text-brand-700">${product.price.toFixed(2)}</span>
                     </div>
+                    {product.name_km && <p className="text-xs text-brand-600 mb-1">{product.name_km}</p>}
                     <p className="text-sm text-brand-500 truncate mb-1">{product.scent}</p>
                     <p className="text-xs text-brand-400 line-clamp-1">{product.description}</p>
                   </div>

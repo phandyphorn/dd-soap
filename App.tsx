@@ -1,12 +1,164 @@
 import React, { useState, useEffect } from 'react';
-import { Product, CartItem, ViewState, CustomerDetails } from './types';
-import { INITIAL_PRODUCTS, TELEGRAM_USERNAME, ADMIN_PASSWORD } from './constants';
+import { Product, CartItem, ViewState, CustomerDetails, Language } from './types';
+import { INITIAL_PRODUCTS, TELEGRAM_USERNAME, ADMIN_PASSWORD, TRANSLATIONS } from './constants';
 import ProductList from './components/ProductList';
 import CartDrawer from './components/CartDrawer';
 import AdminPanel from './components/AdminPanel';
 import ProductDetail from './components/ProductDetail';
 import Hero from './components/Hero';
-import { ShoppingBag, Settings, LogOut, Send, MapPin, Phone, User, Home, Lock } from 'lucide-react';
+import { ShoppingBag, Settings, LogOut, Send, MapPin, Phone, User, Home, Lock, Globe } from 'lucide-react';
+
+// --- Sub-components moved outside App to prevent re-render focus loss ---
+
+interface CheckoutViewProps {
+  cart: CartItem[];
+  t: typeof TRANSLATIONS['en'];
+  customerDetails: CustomerDetails;
+  setCustomerDetails: React.Dispatch<React.SetStateAction<CustomerDetails>>;
+  handleTelegramCheckout: (e: React.FormEvent) => void;
+  setView: (view: ViewState) => void;
+}
+
+const CheckoutView: React.FC<CheckoutViewProps> = ({
+  cart,
+  t,
+  customerDetails,
+  setCustomerDetails,
+  handleTelegramCheckout,
+  setView
+}) => (
+  <div className="max-w-2xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-brand-100 my-8">
+    <div className="flex items-center mb-8 pb-4 border-b border-brand-100">
+      <button
+        onClick={() => setView('HOME')}
+        className="mr-4 p-3 bg-brand-50 text-brand-900 rounded-full hover:bg-brand-100 transition-colors border border-brand-200 shadow-sm"
+        title="Return Home"
+      >
+        <Home className="w-5 h-5" />
+      </button>
+      <h2 className="text-3xl font-serif font-bold text-brand-900">{t.completeOrder}</h2>
+    </div>
+
+    <div className="mb-8 bg-brand-50 p-6 rounded-2xl">
+      <h3 className="font-bold text-brand-800 mb-4">{t.orderSummary}</h3>
+      {cart.map(item => (
+        <div key={item.id} className="flex justify-between text-sm mb-2 text-brand-700">
+          <span>{item.name} x {item.quantity}</span>
+          <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+      ))}
+      <div className="mt-4 pt-4 border-t border-brand-200 flex justify-between font-bold text-lg text-brand-900">
+        <span>{t.total}</span>
+        <span>${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}</span>
+      </div>
+    </div>
+
+    <form onSubmit={handleTelegramCheckout} className="space-y-6">
+      <div>
+        <label className="block text-sm font-medium text-brand-700 mb-2 flex items-center">
+          <User className="w-4 h-4 mr-2" /> {t.fullName}
+        </label>
+        <input
+          required
+          className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
+          value={customerDetails.name}
+          onChange={e => setCustomerDetails({ ...customerDetails, name: e.target.value })}
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-brand-700 mb-2 flex items-center">
+          <Phone className="w-4 h-4 mr-2" /> {t.phone}
+        </label>
+        <input
+          required
+          type="tel"
+          className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
+          value={customerDetails.phone}
+          onChange={e => setCustomerDetails({ ...customerDetails, phone: e.target.value })}
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-brand-700 mb-2 flex items-center">
+          <MapPin className="w-4 h-4 mr-2" /> {t.address}
+        </label>
+        <textarea
+          required
+          rows={3}
+          className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
+          value={customerDetails.address}
+          onChange={e => setCustomerDetails({ ...customerDetails, address: e.target.value })}
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-brand-700 mb-2">{t.notes}</label>
+        <textarea
+          rows={2}
+          className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
+          value={customerDetails.note}
+          onChange={e => setCustomerDetails({ ...customerDetails, note: e.target.value })}
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-[#0088cc] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#0077b5] transition-all shadow-lg hover:shadow-xl flex items-center justify-center"
+      >
+        <Send className="w-5 h-5 mr-3" /> {t.sendTelegram}
+      </button>
+      <p className="text-center text-xs text-brand-400 mt-4">
+        {t.redirectNote}
+      </p>
+    </form>
+  </div>
+);
+
+interface LoginViewProps {
+  t: typeof TRANSLATIONS['en'];
+  passwordInput: string;
+  setPasswordInput: (val: string) => void;
+  handleLogin: (e: React.FormEvent) => void;
+  loginError: boolean;
+  setView: (view: ViewState) => void;
+}
+
+const LoginView: React.FC<LoginViewProps> = ({
+  t,
+  passwordInput,
+  setPasswordInput,
+  handleLogin,
+  loginError,
+  setView
+}) => (
+  <div className="max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl shadow-xl border border-brand-100 text-center animate-[slideIn_0.3s_ease-out]">
+    <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-6">
+      <Lock className="w-8 h-8 text-brand-600" />
+    </div>
+    <h2 className="text-2xl font-serif font-bold text-brand-900 mb-2">{t.ownerAccess}</h2>
+    <p className="text-brand-500 mb-8">{t.enterPassword}</p>
+
+    <form onSubmit={handleLogin}>
+      <input
+        type="password"
+        autoFocus
+        value={passwordInput}
+        onChange={(e) => setPasswordInput(e.target.value)}
+        className="w-full p-4 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none mb-4 text-center text-lg tracking-widest bg-brand-50"
+        placeholder="••••"
+      />
+      {loginError && <p className="text-red-500 text-sm mb-4">Incorrect password. Please try again.</p>}
+      <button
+        type="submit"
+        className="w-full bg-brand-800 text-brand-50 py-4 rounded-xl font-bold text-lg hover:bg-brand-700 transition-all shadow-lg"
+      >
+        {t.unlock}
+      </button>
+    </form>
+    <button onClick={() => setView('HOME')} className="mt-6 text-brand-400 hover:text-brand-600 text-sm font-medium">
+      {t.returnStore}
+    </button>
+  </div>
+);
+
 
 const App: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -14,12 +166,13 @@ const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('HOME');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  
+  const [language, setLanguage] = useState<Language>('en');
+
   // Auth State
   const [isAdmin, setIsAdmin] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [loginError, setLoginError] = useState(false);
-  
+
   // Checkout Form State
   const [customerDetails, setCustomerDetails] = useState<CustomerDetails>({
     name: '',
@@ -27,6 +180,8 @@ const App: React.FC = () => {
     phone: '',
     note: ''
   });
+
+  const t = TRANSLATIONS[language];
 
   // Load Initial Data
   useEffect(() => {
@@ -104,164 +259,66 @@ const App: React.FC = () => {
     }
   };
 
+  // Language Toggle
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'en' ? 'km' : 'en');
+  };
+
   // Telegram Checkout
   const handleTelegramCheckout = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const itemsList = cart.map(item => `- ${item.name} x ${item.quantity} ($${(item.price * item.quantity).toFixed(2)})`).join('%0A');
+
+    const itemsList = cart.map(item => `- ${item.name} x ${item.quantity} ($${(item.price * item.quantity).toFixed(2)})`).join('\n');
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2);
-    
-    const message = `🧼 *New Soap Order!* 🧼%0A%0A` +
-      `*Items:*%0A${itemsList}%0A%0A` +
-      `*Total:* $${total}%0A%0A` +
-      `*Customer Details:*%0A` +
-      `👤 Name: ${customerDetails.name}%0A` +
-      `📞 Phone: ${customerDetails.phone}%0A` +
-      `📍 Address: ${customerDetails.address}%0A` +
+
+    // Build the message text
+    const text = `🧼 *New Soap Order!* 🧼\n\n` +
+      `*Items:*\n${itemsList}\n\n` +
+      `*Total:* $${total}\n\n` +
+      `*Customer Details:*\n` +
+      `👤 Name: ${customerDetails.name}\n` +
+      `📞 Phone: ${customerDetails.phone}\n` +
+      `📍 Address: ${customerDetails.address}\n` +
       `📝 Note: ${customerDetails.note || 'None'}`;
 
-    const url = `https://t.me/${TELEGRAM_USERNAME}?text=${message}`; 
+    // Properly encode the message for URL
+    const encodedMessage = encodeURIComponent(text);
+    const url = `https://t.me/${TELEGRAM_USERNAME}?text=${encodedMessage}`;
+    
     window.open(url, '_blank');
     setCart([]);
     setView('HOME');
     setCustomerDetails({ name: '', address: '', phone: '', note: '' });
   };
 
-  // Checkout View Component
-  const CheckoutView = () => (
-    <div className="max-w-2xl mx-auto p-8 bg-white rounded-3xl shadow-xl border border-brand-100 my-8">
-      <div className="flex items-center mb-8 pb-4 border-b border-brand-100">
-        <button 
-          onClick={() => setView('HOME')} 
-          className="mr-4 p-3 bg-brand-50 text-brand-900 rounded-full hover:bg-brand-100 transition-colors border border-brand-200 shadow-sm"
-          title="Return Home"
-        >
-           <Home className="w-5 h-5" />
-        </button>
-        <h2 className="text-3xl font-serif font-bold text-brand-900">Complete Your Order</h2>
-      </div>
-
-      <div className="mb-8 bg-brand-50 p-6 rounded-2xl">
-        <h3 className="font-bold text-brand-800 mb-4">Order Summary</h3>
-        {cart.map(item => (
-          <div key={item.id} className="flex justify-between text-sm mb-2 text-brand-700">
-            <span>{item.name} x {item.quantity}</span>
-            <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
-          </div>
-        ))}
-        <div className="mt-4 pt-4 border-t border-brand-200 flex justify-between font-bold text-lg text-brand-900">
-          <span>Total</span>
-          <span>${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}</span>
-        </div>
-      </div>
-
-      <form onSubmit={handleTelegramCheckout} className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium text-brand-700 mb-2 flex items-center">
-            <User className="w-4 h-4 mr-2" /> Full Name
-          </label>
-          <input 
-            required
-            className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
-            value={customerDetails.name}
-            onChange={e => setCustomerDetails({...customerDetails, name: e.target.value})}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-brand-700 mb-2 flex items-center">
-            <Phone className="w-4 h-4 mr-2" /> Phone Number
-          </label>
-          <input 
-            required
-            type="tel"
-            className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
-            value={customerDetails.phone}
-            onChange={e => setCustomerDetails({...customerDetails, phone: e.target.value})}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-brand-700 mb-2 flex items-center">
-            <MapPin className="w-4 h-4 mr-2" /> Delivery Address
-          </label>
-          <textarea 
-            required
-            rows={3}
-            className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
-            value={customerDetails.address}
-            onChange={e => setCustomerDetails({...customerDetails, address: e.target.value})}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-brand-700 mb-2">Order Notes (Optional)</label>
-          <textarea 
-            rows={2}
-            className="w-full p-3 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none bg-brand-50/30"
-            value={customerDetails.note}
-            onChange={e => setCustomerDetails({...customerDetails, note: e.target.value})}
-          />
-        </div>
-        
-        <button 
-          type="submit"
-          className="w-full bg-[#0088cc] text-white py-4 rounded-xl font-bold text-lg hover:bg-[#0077b5] transition-all shadow-lg hover:shadow-xl flex items-center justify-center"
-        >
-          <Send className="w-5 h-5 mr-3" /> Send Order via Telegram
-        </button>
-        <p className="text-center text-xs text-brand-400 mt-4">
-          You will be redirected to Telegram to send the message.
-        </p>
-      </form>
-    </div>
-  );
-
-  // Login View Component
-  const LoginView = () => (
-    <div className="max-w-md mx-auto mt-20 p-8 bg-white rounded-3xl shadow-xl border border-brand-100 text-center animate-[slideIn_0.3s_ease-out]">
-      <div className="w-16 h-16 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-6">
-        <Lock className="w-8 h-8 text-brand-600" />
-      </div>
-      <h2 className="text-2xl font-serif font-bold text-brand-900 mb-2">Owner Access</h2>
-      <p className="text-brand-500 mb-8">Please enter the password to manage inventory.</p>
-      
-      <form onSubmit={handleLogin}>
-        <input 
-          type="password"
-          autoFocus
-          value={passwordInput}
-          onChange={(e) => setPasswordInput(e.target.value)}
-          className="w-full p-4 border border-brand-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:outline-none mb-4 text-center text-lg tracking-widest bg-brand-50"
-          placeholder="••••"
-        />
-        {loginError && <p className="text-red-500 text-sm mb-4">Incorrect password. Please try again.</p>}
-        <button 
-          type="submit"
-          className="w-full bg-brand-800 text-brand-50 py-4 rounded-xl font-bold text-lg hover:bg-brand-700 transition-all shadow-lg"
-        >
-          Unlock Dashboard
-        </button>
-      </form>
-      <button onClick={() => setView('HOME')} className="mt-6 text-brand-400 hover:text-brand-600 text-sm font-medium">
-        Return to Store
-      </button>
-    </div>
-  );
-
   return (
     <div className="min-h-screen pb-20">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-brand-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-          <div 
-            className="flex items-center cursor-pointer" 
+          <div
+            className="flex items-center cursor-pointer"
             onClick={() => setView('HOME')}
           >
-            <div className="w-10 h-10 bg-brand-800 rounded-lg flex items-center justify-center text-brand-50 font-serif font-bold text-xl mr-3 shadow-md">DS</div>
-            <h1 className="text-2xl font-serif font-bold text-brand-900 tracking-tight">DD Soap</h1>
+            <img
+              src="https://img.sanishtech.com/u/f59425de27ba0f4147e6ce562b91b87e.png?v=400&w=400"
+              alt={t.brandName}
+              className="h-12 md:h-16 w-auto object-contain"
+            />
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
+            <button
+              onClick={toggleLanguage}
+              className="flex items-center px-3 py-2 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-full text-sm font-bold text-brand-800 transition-colors shadow-sm"
+              title="Switch Language"
+            >
+              <Globe className="w-4 h-4 mr-1.5" />
+              {language === 'en' ? 'EN' : 'ខ្មែរ'}
+            </button>
+
             {view === 'HOME' && (
-              <button 
+              <button
                 onClick={() => setIsCartOpen(true)}
                 className="relative p-3 bg-brand-50 text-brand-800 rounded-full hover:bg-brand-100 transition-all shadow-sm border border-brand-200"
                 title="View Cart"
@@ -274,8 +331,8 @@ const App: React.FC = () => {
                 )}
               </button>
             )}
-            
-            <button 
+
+            <button
               onClick={() => {
                 if (view === 'ADMIN' || view === 'ADMIN_LOGIN') {
                   setView('HOME');
@@ -284,8 +341,8 @@ const App: React.FC = () => {
                   setView(isAdmin ? 'ADMIN' : 'ADMIN_LOGIN');
                 }
               }}
-              className={`p-3 rounded-full transition-all shadow-sm border ${view === 'ADMIN' || view === 'ADMIN_LOGIN' 
-                ? 'bg-brand-800 text-brand-50 border-brand-800 hover:bg-brand-700' 
+              className={`p-3 rounded-full transition-all shadow-sm border ${view === 'ADMIN' || view === 'ADMIN_LOGIN'
+                ? 'bg-brand-800 text-brand-50 border-brand-800 hover:bg-brand-700'
                 : 'bg-white text-brand-600 border-brand-200 hover:bg-brand-50'}`}
               title={view === 'ADMIN' ? 'Logout Admin' : 'Admin Login'}
             >
@@ -299,29 +356,31 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {view === 'HOME' && (
           <>
-            <Hero onShopNow={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })} />
+            <Hero onShopNow={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })} language={language} />
             <div className="mb-12 text-center">
-                <h2 className="text-3xl font-serif font-bold text-brand-900 mb-4">Our Collection</h2>
-                <div className="w-24 h-1 bg-brand-300 mx-auto rounded-full"></div>
+              <h2 className="text-3xl font-serif font-bold text-brand-900 mb-4">{t.ourCollection}</h2>
+              <div className="w-24 h-1 bg-brand-300 mx-auto rounded-full"></div>
             </div>
-            <ProductList 
-              products={products} 
-              onAddToCart={addToCart} 
+            <ProductList
+              products={products}
+              onAddToCart={addToCart}
               onProductClick={handleProductClick}
+              language={language}
             />
           </>
         )}
 
         {view === 'PRODUCT_DETAIL' && selectedProduct && (
-          <ProductDetail 
-            product={selectedProduct} 
+          <ProductDetail
+            product={selectedProduct}
             onBack={() => setView('HOME')}
             onAddToCart={addToCart}
+            language={language}
           />
         )}
 
         {view === 'ADMIN' && (
-          <AdminPanel 
+          <AdminPanel
             products={products}
             onAddProduct={handleAddProduct}
             onUpdateProduct={handleUpdateProduct}
@@ -333,38 +392,50 @@ const App: React.FC = () => {
           />
         )}
 
-        {view === 'ADMIN_LOGIN' && <LoginView />}
+        {view === 'ADMIN_LOGIN' && (
+          <LoginView
+            t={t}
+            passwordInput={passwordInput}
+            setPasswordInput={setPasswordInput}
+            handleLogin={handleLogin}
+            loginError={loginError}
+            setView={setView}
+          />
+        )}
 
-        {view === 'CHECKOUT' && <CheckoutView />}
+        {view === 'CHECKOUT' && (
+          <CheckoutView
+            cart={cart}
+            t={t}
+            customerDetails={customerDetails}
+            setCustomerDetails={setCustomerDetails}
+            handleTelegramCheckout={handleTelegramCheckout}
+            setView={setView}
+          />
+        )}
       </main>
 
       {/* Footer */}
       <footer className="bg-brand-900 text-brand-200 py-12 mt-12">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
           <div>
-            <h3 className="text-white font-serif font-bold text-xl mb-4">DD Soap</h3>
+            <h3 className="text-white font-serif font-bold text-xl mb-4">{t.brandName}</h3>
             <p className="text-sm leading-relaxed opacity-80">
-              Handcrafted in small batches using traditional cold process methods. 
-              Ethically sourced, cruelty-free, and good for your soul.
+              {t.handcrafted}
             </p>
           </div>
           <div>
-            <h4 className="text-white font-bold mb-4">Contact</h4>
-            <p className="text-sm opacity-80">hello@ddsoap.com</p>
-            <p className="text-sm opacity-80">@ddsoap</p>
-          </div>
-          <div>
-             <h4 className="text-white font-bold mb-4">Legal</h4>
-             <p className="text-sm opacity-80">Privacy Policy</p>
-             <p className="text-sm opacity-80">Terms of Service</p>
+            <h4 className="text-white font-bold mb-4">{t.contact}</h4>
+            <p className="text-sm opacity-80">phornphandy20@gmail.com</p>
+            <p className="text-sm opacity-80">0979856605</p>
           </div>
         </div>
       </footer>
 
       {/* Cart Drawer */}
-      <CartDrawer 
-        isOpen={isCartOpen} 
-        onClose={() => setIsCartOpen(false)} 
+      <CartDrawer
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
         cart={cart}
         onRemove={removeFromCart}
         onUpdateQuantity={updateQuantity}
@@ -372,6 +443,7 @@ const App: React.FC = () => {
           setIsCartOpen(false);
           setView('CHECKOUT');
         }}
+        language={language}
       />
     </div>
   );
