@@ -53,9 +53,9 @@ const Hero = ({ onShopNow, language }: HeroProps) => {
 
   return (
     <div className="relative bg-brand-800 text-brand-50 overflow-hidden rounded-3xl mb-8 md:mb-12 shadow-xl min-h-[400px] md:min-h-[500px] flex items-center justify-center transition-all duration-300">
-      {/* Background Image - moved to style to handle URL query params safely */}
+      {/* Background Image - used bg-contain to show full image without cropping */}
       <div 
-        className="absolute inset-0 opacity-10 bg-no-repeat bg-center bg-cover"
+        className="absolute inset-0 opacity-10 bg-no-repeat bg-center bg-contain"
         style={{ backgroundImage: "url('https://i.imgur.com/oIz8Ewp.png?v=1200&width=600?grayscale')" }}
       />
       
@@ -66,19 +66,20 @@ const Hero = ({ onShopNow, language }: HeroProps) => {
           </span>
         </div>
 
-        {/* Static Prefix Title */}
-        <h2 className={`text-black font-serif font-medium mb-3 md:mb-4 tracking-wide ${isKhmer ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'}`}>
+        {/* Static Prefix Title - margin removed to hug the dynamic text */}
+        <h2 className={`text-black font-serif font-medium mb-0 tracking-wide ${isKhmer ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'}`}>
           {t.heroTitle}
         </h2>
 
-        {/* Dynamic Typewriter Text */}
-        <div className="h-20 md:h-32 flex items-center justify-center mb-4 md:mb-6">
+        {/* Dynamic Typewriter Text - container height reduced significantly to bring elements closer */}
+        <div className="h-12 md:h-24 flex items-center justify-center mb-2">
           <h1 className={`${isKhmer ? 'text-3xl sm:text-4xl md:text-6xl text-black leading-relaxed' : 'text-4xl sm:text-5xl text-black md:text-7xl'} font-serif font-bold tracking-tight break-words max-w-full`}>
             {text}
             <span className="animate-pulse text-brand-300">|</span>
           </h1>
         </div>
 
+        {/* Subtitle - margin bottom reduced to keep button visible on mobile */}
         <p className={`text-black mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed px-2 ${isKhmer ? 'text-sm md:text-lg' : 'text-base md:text-xl'}`}>
           {t.heroSubtitle}
         </p>

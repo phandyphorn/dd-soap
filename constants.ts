@@ -106,7 +106,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     id: '2',
     name: 'Ombox',
     name_km: 'អំបុក',
-    price: 11.00,
+    price: 0.4,
     description: 'Made from fresh, newly harvested rice.',
     description_km: 'ធ្វើពីស្រូវទើបប្រមូលផលថ្មីៗ។',
     image: 'https://i.imgur.com/bkdveiE.jpeg',
