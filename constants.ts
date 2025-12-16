@@ -91,9 +91,9 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 0.4,
     description: 'A powerful dish soap that cuts through grease effortlessly.',
     description_km: 'សាប៊ូលាងចាន ឆ្នាំង ជំរះបានល្អ។',
-    image: 'https://img.sanishtech.com/u/e69df4dbfa02b239229a54234adaa0c5.jpg',
+    image: '../assets/images/soap1.jpg',
     images: [
-      'https://img.sanishtech.com/u/e69df4dbfa02b239229a54234adaa0c5.jpg',
+      '../assets/images/soap1.jpg',
       'https://img.sanishtech.com/u/6a7d829f05b6ef87d22d29fcdb68fef1.jpg?v=400&w=400',
       'https://img.sanishtech.com/u/a0dee0a27962f84e6c43a712bd56eec5.jpg?v=400&w=400',
       'https://img.sanishtech.com/u/d1d40f386d44add4f92b63facdac44c4.jpg?v=400&w=400',
@@ -129,12 +129,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 1.75,
     description: 'Delicious crispy rice mixed with sweet milk.',
     description_km: 'រសជាតិឆ្ងាញ់ លាយជាមួយបាយក្តាំងនិងទឹកដោះគោ។',
-    image: 'https://img.sanishtech.com/u/e975fa853a94c7a1cbbe5ac8de81c05d.jpg?v=400&w=400',
+    image: 'https://i.imgur.com/pjyCbQA.jpeg',
     images: [
-      'https://img.sanishtech.com/u/e975fa853a94c7a1cbbe5ac8de81c05d.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/03b916f92c093ab3213c7960b6ced5d8.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/2cc072444f7391904f1f022a86e0a3bb.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/89e0654bd898f418863a1bd9860af886.jpg?v=400&w=400'
+      'https://i.imgur.com/gj6aE7x.jpeg',
+      'https://i.imgur.com/pjyCbQA.jpeg',
+      'https://i.imgur.com/K2hpjuw.jpeg',
+      'https://i.imgur.com/gUsV0Kx.jpeg'
     ],
     scent: 'Milk & Rice',
     scent_km: 'ក្លិនទឹកដោះគោនិងអង្ករ',
