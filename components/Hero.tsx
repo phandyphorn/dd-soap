@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 import { TRANSLATIONS, INITIAL_PRODUCTS } from '../constants';
 import { Language } from '../types';
@@ -52,35 +52,40 @@ const Hero = ({ onShopNow, language }: HeroProps) => {
   }, [text, isDeleting, loopNum, language, typingSpeed]);
 
   return (
-    <div className="relative bg-brand-800 text-brand-50 overflow-hidden rounded-3xl mb-12 shadow-xl min-h-[500px] flex items-center justify-center">
-      <div className="absolute inset-0 opacity-20 bg-[url('https://img.sanishtech.com/u/bebf7a55c45eee8666b21a3ddda6b223.png?v=1200&width=600?grayscale')] bg-cover bg-center" />
-      <div className="relative px-8 py-12 text-center max-w-4xl mx-auto z-10">
-        <div className="flex justify-center mb-8">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-brand-700 text-brand-100 uppercase tracking-widest border border-brand-600">
+    <div className="relative bg-brand-800 text-brand-50 overflow-hidden rounded-3xl mb-8 md:mb-12 shadow-xl min-h-[400px] md:min-h-[500px] flex items-center justify-center transition-all duration-300">
+      {/* Background Image - moved to style to handle URL query params safely */}
+      <div 
+        className="absolute inset-0 opacity-10 bg-no-repeat bg-center bg-cover"
+        style={{ backgroundImage: "url('https://i.imgur.com/oIz8Ewp.png?v=1200&width=600?grayscale')" }}
+      />
+      
+      <div className="relative px-4 sm:px-6 md:px-8 py-8 md:py-12 text-center max-w-4xl mx-auto z-10 w-full">
+        <div className="flex justify-center mb-6 md:mb-8">
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs text-black font-medium bg-brand-700 text-brand-100 uppercase tracking-widest border border-brand-600">
             <Sparkles className="w-3 h-3 mr-2" /> {t.handsoapWithLove}
           </span>
         </div>
 
         {/* Static Prefix Title */}
-        <h2 className={`text-brand-200 font-serif font-medium mb-4 tracking-wide ${isKhmer ? 'text-xl' : 'text-2xl'}`}>
+        <h2 className={`text-black font-serif font-medium mb-3 md:mb-4 tracking-wide ${isKhmer ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'}`}>
           {t.heroTitle}
         </h2>
 
         {/* Dynamic Typewriter Text */}
-        <div className="h-24 md:h-32 flex items-center justify-center mb-6">
-          <h1 className={`${isKhmer ? 'text-4xl md:text-6xl leading-relaxed' : 'text-5xl md:text-7xl'} font-serif font-bold tracking-tight`}>
+        <div className="h-20 md:h-32 flex items-center justify-center mb-4 md:mb-6">
+          <h1 className={`${isKhmer ? 'text-3xl sm:text-4xl md:text-6xl text-black leading-relaxed' : 'text-4xl sm:text-5xl text-black md:text-7xl'} font-serif font-bold tracking-tight break-words max-w-full`}>
             {text}
             <span className="animate-pulse text-brand-300">|</span>
           </h1>
         </div>
 
-        <p className={`${isKhmer ? 'text-base md:text-lg' : 'text-lg md:text-xl'} text-brand-200 mb-10 max-w-2xl mx-auto leading-relaxed`}>
+        <p className={`text-black mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed px-2 ${isKhmer ? 'text-sm md:text-lg' : 'text-base md:text-xl'}`}>
           {t.heroSubtitle}
         </p>
 
         <button
           onClick={onShopNow}
-          className="bg-brand-50 text-brand-900 px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:scale-105 transition-all shadow-lg active:scale-95"
+          className="bg-brand-50 text-brand-900 px-6 md:px-8 py-3 md:py-4 rounded-full text-black font-semibold text-base md:text-lg hover:bg-white hover:scale-105 transition-all shadow-lg active:scale-95"
         >
           {t.shopNow}
         </button>

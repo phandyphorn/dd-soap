@@ -292,7 +292,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-brand-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
@@ -301,7 +301,7 @@ const App: React.FC = () => {
             onClick={() => setView('HOME')}
           >
             <img
-              src="https://img.sanishtech.com/u/f59425de27ba0f4147e6ce562b91b87e.png?v=400&w=400"
+              src="https://i.imgur.com/18kQsTQ.png"
               alt={t.brandName}
               className="h-12 md:h-16 w-auto object-contain"
             />

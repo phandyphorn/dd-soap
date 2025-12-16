@@ -91,12 +91,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 0.4,
     description: 'A powerful dish soap that cuts through grease effortlessly.',
     description_km: 'សាប៊ូលាងចាន ឆ្នាំង ជំរះបានល្អ។',
-    image: '../assets/images/soap1.jpg',
+    image: 'https://i.imgur.com/BjhE7RE.jpeg',
     images: [
-      '../assets/images/soap1.jpg',
-      'https://img.sanishtech.com/u/6a7d829f05b6ef87d22d29fcdb68fef1.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/a0dee0a27962f84e6c43a712bd56eec5.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/d1d40f386d44add4f92b63facdac44c4.jpg?v=400&w=400',
+      'https://i.imgur.com/BjhE7RE.jpeg',
+      'https://i.imgur.com/PnZhSI5.jpeg',
+      'https://i.imgur.com/FOOuWTy.jpeg',
     ],
     scent: 'Lemon Zest',
     scent_km: 'ក្លិនក្រូចឆ្មា',
@@ -110,12 +109,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 11.00,
     description: 'Made from fresh, newly harvested rice.',
     description_km: 'ធ្វើពីស្រូវទើបប្រមូលផលថ្មីៗ។',
-    image: 'https://img.sanishtech.com/u/eff63ca912453640ebc3e523eda6bd8d.jpg?v=400&w=400',
+    image: 'https://i.imgur.com/bkdveiE.jpeg',
     images: [
-      'https://img.sanishtech.com/u/eff63ca912453640ebc3e523eda6bd8d.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/9c4b50e178afc33bfd57219cad75ddee.jpg?v=400&w=400',
-      'https://scontent.fpnh10-1.fna.fbcdn.net/v/t39.30808-6/571076102_1226662796151767_4589339451428239538_n.jpg?v=400&w=400',
-      'https://sbm.news/api/files/images/247436405_2741167296182299_5998465629798504757_n-TcgBefwj5LmAT2Pjb5IyP.jpg?v=400&w=400'
+      'https://i.imgur.com/bkdveiE.jpeg',
+      'https://i.imgur.com/a8JTP2K.jpeg',
+      'https://i.imgur.com/3UnrwV0.jpeg',
     ],
     scent: 'Fresh Rice',
     scent_km: 'ក្លិនស្រូវថ្មី',
@@ -131,8 +129,8 @@ export const INITIAL_PRODUCTS: Product[] = [
     description_km: 'រសជាតិឆ្ងាញ់ លាយជាមួយបាយក្តាំងនិងទឹកដោះគោ។',
     image: 'https://i.imgur.com/pjyCbQA.jpeg',
     images: [
-      'https://i.imgur.com/gj6aE7x.jpeg',
       'https://i.imgur.com/pjyCbQA.jpeg',
+      'https://i.imgur.com/gj6aE7x.jpeg',
       'https://i.imgur.com/K2hpjuw.jpeg',
       'https://i.imgur.com/gUsV0Kx.jpeg'
     ],
@@ -148,12 +146,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 1.25,
     description: 'Sweet and natural taste from ripe papaya.',
     description_km: 'រសជាតិឆ្ងាញ់ ផ្អែមពីធម្មជាតិ។',
-    image: 'https://img.sanishtech.com/u/d3093d395b9996ba953c36f9afe06b2d.jpg',
+    image: 'https://i.imgur.com/vx8kNc7.jpeg',
     images: [
-      'https://img.sanishtech.com/u/75731496f7d5b6a88a3cfbc14a003de5.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/6116900c512306ccabc5d0bb06b62b55.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/7e31f1a96e3be4bf4ea12be3c7ee9d77.jpg?v=400&w=400',
-      'https://img.sanishtech.com/u/91ffcf5a1812d5d6cca311b279ade41c.jpg?v=400&w=400'
+      'https://i.imgur.com/V6gwk1S.jpeg',
+      'https://i.imgur.com/ijz2gCN.jpeg',
+      'https://i.imgur.com/w8PB76R.jpeg',
+      'https://i.imgur.com/DjtlYYy.jpeg'
     ],
     scent: 'Ripe Papaya',
     scent_km: 'ក្លិនល្ហុងទុំធម្មជាតិ',
