@@ -1,6 +1,8 @@
+
 import { Product } from './types';
 
 export const TELEGRAM_USERNAME = "phornphandy";
+export const TELEGRAM_BOT_USERNAME = "LoukNisLoukNosBot"; // Replace with your actual bot username from @BotFather
 export const ADMIN_PASSWORD = "123"; // Simple password for owner access
 
 
@@ -41,7 +43,9 @@ export const TRANSLATIONS = {
     unlock: "Unlock Dashboard",
     returnStore: "Return to Store",
     handsoapWithLove: "Homemade with Love",
-    brandName: "Sell This Sell That"
+    brandName: "Sell This Sell That",
+    chatWithAI: "Chat with AI Assistant",
+    aiHelp: "How can I help you?"
   },
   km: {
     heroTitle: "មានលក់៖",
@@ -79,7 +83,9 @@ export const TRANSLATIONS = {
     unlock: "បើកផ្ទាំងគ្រប់គ្រង",
     returnStore: "ត្រឡប់ទៅហាងវិញ",
     handsoapWithLove: "ផលិតដោយក្តីស្រឡាញ់",
-    brandName: "លក់នេះ លក់នោះ"
+    brandName: "លក់នេះ លក់នោះ",
+    chatWithAI: "ជជែកជាមួយ AI",
+    aiHelp: "តើខ្ញុំអាចជួយអ្វីបានខ្លះ?"
   }
 };
 
@@ -126,7 +132,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     name_km: 'បាយក្តាំង',
     price: 1.75,
     description: 'Delicious crispy rice mixed with sweet milk.',
-    description_km: 'រសជាតិឆ្ងាញ់ លាយជាមួយបាយក្តាំងនិងទឹកដោះគោ។',
+    description_km: 'រសជាតិឆ្ងាញ់ លាយជាមួយបាយក្តាំងនិងទឹកដោះគោ Tune។',
     image: 'https://i.imgur.com/pjyCbQA.jpeg',
     images: [
       'https://i.imgur.com/pjyCbQA.jpeg',

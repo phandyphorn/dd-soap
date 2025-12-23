@@ -1,12 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import { Product, CartItem, ViewState, CustomerDetails, Language } from './types';
-import { INITIAL_PRODUCTS, TELEGRAM_USERNAME, ADMIN_PASSWORD, TRANSLATIONS } from './constants';
+import { INITIAL_PRODUCTS, TELEGRAM_USERNAME, TELEGRAM_BOT_USERNAME, ADMIN_PASSWORD, TRANSLATIONS } from './constants';
 import ProductList from './components/ProductList';
 import CartDrawer from './components/CartDrawer';
 import AdminPanel from './components/AdminPanel';
 import ProductDetail from './components/ProductDetail';
 import Hero from './components/Hero';
-import { ShoppingBag, Settings, LogOut, Send, MapPin, Phone, User, Home, Lock, Globe } from 'lucide-react';
+import { ShoppingBag, Settings, LogOut, Send, MapPin, Phone, User, Home, Lock, Globe, MessageCircle } from 'lucide-react';
 
 // --- Sub-components moved outside App to prevent re-render focus loss ---
 
@@ -283,6 +284,9 @@ const App: React.FC = () => {
 
     // Properly encode the message for URL
     const encodedMessage = encodeURIComponent(text);
+    
+    // CRITICAL FIX: Send checkout orders to your PERSONAL Telegram (TELEGRAM_USERNAME)
+    // This makes the message appear in your main chat inbox so you get notified.
     const url = `https://t.me/${TELEGRAM_USERNAME}?text=${encodedMessage}`;
     
     window.open(url, '_blank');
@@ -292,7 +296,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-brand-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
@@ -356,7 +360,10 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {view === 'HOME' && (
           <>
-            <Hero onShopNow={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })} language={language} />
+            <Hero 
+              onShopNow={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })} 
+              language={language} 
+            />
             <div className="mb-12 text-center">
               <h2 className="text-3xl font-serif font-bold text-brand-900 mb-4">{t.ourCollection}</h2>
               <div className="w-24 h-1 bg-brand-300 mx-auto rounded-full"></div>
@@ -415,6 +422,22 @@ const App: React.FC = () => {
         )}
       </main>
 
+      {/* Floating Chat Button for AI - Points to the BOT */}
+      <a
+        href={`https://t.me/${TELEGRAM_BOT_USERNAME}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 group flex items-center"
+        title={t.chatWithAI}
+      >
+        <div className="mr-3 bg-white px-4 py-2 rounded-2xl shadow-xl border border-brand-100 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 pointer-events-none">
+          <p className="text-sm font-bold text-brand-800 whitespace-nowrap">{t.aiHelp}</p>
+        </div>
+        <div className="w-14 h-14 bg-[#0088cc] text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all animate-bounce hover:animate-none">
+          <MessageCircle className="w-7 h-7" />
+        </div>
+      </a>
+
       {/* Footer */}
       <footer className="bg-brand-900 text-brand-200 py-12 mt-12">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
@@ -428,6 +451,13 @@ const App: React.FC = () => {
             <h4 className="text-white font-bold mb-4">{t.contact}</h4>
             <p className="text-sm opacity-80">phornphandy20@gmail.com</p>
             <p className="text-sm opacity-80">0979856605</p>
+            <a 
+              href={`https://t.me/${TELEGRAM_BOT_USERNAME}`} 
+              target="_blank" 
+              className="text-sm text-[#0088cc] font-bold mt-2 inline-block hover:underline"
+            >
+              {t.chatWithAI}
+            </a>
           </div>
         </div>
       </footer>

@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
-import { TRANSLATIONS, INITIAL_PRODUCTS } from '../constants';
+import { TRANSLATIONS } from '../constants';
 import { Language } from '../types';
 
 interface HeroProps {
@@ -18,10 +19,10 @@ const Hero = ({ onShopNow, language }: HeroProps) => {
   const [typingSpeed, setTypingSpeed] = useState(150);
 
   useEffect(() => {
-    // Get list of names based on current language
-    const productNames = INITIAL_PRODUCTS.map(p =>
-      language === 'km' && p.name_km ? p.name_km : p.name
-    );
+    // Hardcoded list of names for the typewriter effect
+    const productNames = language === 'km' 
+      ? ['សាប៊ូលាងចាន', 'អំបុក', 'បាយក្តាំង', 'ល្ហុង'] 
+      : ['Dish Soap', 'Ombox', 'Crispy Rice', 'Papaya'];
 
     const i = loopNum % productNames.length;
     const fullText = productNames[i];
@@ -53,7 +54,7 @@ const Hero = ({ onShopNow, language }: HeroProps) => {
 
   return (
     <div className="relative bg-brand-800 text-brand-50 overflow-hidden rounded-3xl mb-8 md:mb-12 shadow-xl min-h-[400px] md:min-h-[500px] flex items-center justify-center transition-all duration-300">
-      {/* Background Image - used bg-contain to show full image without cropping */}
+      {/* Background Image */}
       <div 
         className="absolute inset-0 opacity-10 bg-no-repeat bg-center bg-contain"
         style={{ backgroundImage: "url('https://i.imgur.com/oIz8Ewp.png?v=1200&width=600?grayscale')" }}
@@ -66,12 +67,10 @@ const Hero = ({ onShopNow, language }: HeroProps) => {
           </span>
         </div>
 
-        {/* Static Prefix Title - margin removed to hug the dynamic text */}
         <h2 className={`text-black font-serif font-medium mb-0 tracking-wide ${isKhmer ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'}`}>
           {t.heroTitle}
         </h2>
 
-        {/* Dynamic Typewriter Text - container height reduced significantly to bring elements closer */}
         <div className="h-12 md:h-24 flex items-center justify-center mb-2">
           <h1 className={`${isKhmer ? 'text-3xl sm:text-4xl md:text-6xl text-black leading-relaxed' : 'text-4xl sm:text-5xl text-black md:text-7xl'} font-serif font-bold tracking-tight break-words max-w-full`}>
             {text}
@@ -79,7 +78,6 @@ const Hero = ({ onShopNow, language }: HeroProps) => {
           </h1>
         </div>
 
-        {/* Subtitle - margin bottom reduced to keep button visible on mobile */}
         <p className={`text-black mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed px-2 ${isKhmer ? 'text-sm md:text-lg' : 'text-base md:text-xl'}`}>
           {t.heroSubtitle}
         </p>

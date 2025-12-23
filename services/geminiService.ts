@@ -21,7 +21,7 @@ export const generateProductDescription = async (name: string, scent: string, in
     Make it sound luxurious and artisanal.`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
     });
 
