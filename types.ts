@@ -18,12 +18,15 @@ export interface CartItem extends Product {
 }
 
 export interface CustomerDetails {
-  name: string;
-  address: string;
   phone: string;
-  note: string;
+  address: string;
 }
 
-export type ViewState = 'HOME' | 'ADMIN' | 'CHECKOUT' | 'ADMIN_LOGIN' | 'PRODUCT_DETAIL';
+export type ViewState =
+  | "HOME"
+  | "ADMIN"
+  | "CHECKOUT"
+  | "ADMIN_LOGIN"
+  | "PRODUCT_DETAIL";
 
-export type Language = 'en' | 'km';
+export type Language = "en" | "km";

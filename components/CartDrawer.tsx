@@ -29,14 +29,14 @@ const CartDrawer = ({ isOpen, onClose, cart, onRemove, onUpdateQuantity, onCheck
         <div className="flex flex-col h-full">
 
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-brand-100">
+          <div className="flex items-center justify-between p-6 border-b border-brand-orange-100">
             <div className="flex items-center">
-              <ShoppingBag className="w-5 h-5 mr-3 text-brand-700" />
-              <h2 className="text-xl font-serif font-bold text-brand-900">{t.yourCart} ({cart.reduce((acc, i) => acc + i.quantity, 0)})</h2>
+              <ShoppingBag className="w-5 h-5 mr-3 text-black" />
+              <h2 className="text-xl font-serif font-bold text-black">{t.yourCart} ({cart.reduce((acc, i) => acc + i.quantity, 0)})</h2>
             </div>
             <button
               onClick={onClose}
-              className="p-2 rounded-full hover:bg-gray-100 border border-gray-200 text-gray-500 transition-colors shadow-sm"
+              className="p-2 rounded-full bg-transparent hover:bg-brand-orange-900 border-2 border-brand-orange-200 hover:border-brand-orange-900 text-gray-500 hover:text-black transition-all shadow-sm"
               title="Close Cart"
             >
               <X className="w-5 h-5" />
@@ -46,11 +46,11 @@ const CartDrawer = ({ isOpen, onClose, cart, onRemove, onUpdateQuantity, onCheck
           {/* Cart Items */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {cart.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center text-brand-400">
+              <div className="h-full flex flex-col items-center justify-center text-center text-black">
                 <ShoppingBag className="w-16 h-16 mb-4 opacity-20" />
                 <p className="text-lg font-medium">{t.cartEmpty}</p>
                 <p className="text-sm">{t.startAdding}</p>
-                <button onClick={onClose} className="mt-6 text-brand-600 font-bold hover:underline">
+                <button onClick={onClose} className="mt-6 text-black font-bold hover:bg-brand-orange-600 hover:text-black border-2 border-brand-orange-600 px-4 py-2 rounded-lg transition-all">
                   {t.continueShopping}
                 </button>
               </div>
@@ -61,31 +61,31 @@ const CartDrawer = ({ isOpen, onClose, cart, onRemove, onUpdateQuantity, onCheck
 
                 return (
                   <div key={item.id} className="flex gap-4 group">
-                    <div className="w-20 h-20 bg-brand-50 rounded-lg overflow-hidden flex-shrink-0 border border-brand-100">
+                    <div className="w-20 h-20 bg-brand-orange-50 rounded-lg overflow-hidden flex-shrink-0 border border-brand-orange-100">
                       <img src={item.image} alt={displayName} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start">
-                          <h3 className="font-bold text-brand-900 line-clamp-1">{displayName}</h3>
-                          <p className="font-serif font-bold text-brand-700">${(item.price * item.quantity).toFixed(2)}</p>
+                          <h3 className="font-bold text-black line-clamp-1">{displayName}</h3>
+                          <p className="font-serif font-bold text-black">${(item.price * item.quantity).toFixed(2)}</p>
                         </div>
-                        <p className="text-xs text-brand-400">{displayScent}</p>
+                        <p className="text-xs text-black">{displayScent}</p>
                       </div>
 
-                      <div className="flex justify-between items-center mt-2">
-                        <div className="flex items-center gap-3 bg-brand-50 rounded-lg p-1 border border-brand-100">
+                       <div className="flex justify-between items-center mt-2">
+                        <div className="flex items-center gap-3 bg-brand-orange-50 rounded-lg p-1 border border-brand-orange-100">
                           <button
                             onClick={() => onUpdateQuantity(item.id, -1)}
-                            className={`w-7 h-7 flex items-center justify-center bg-white rounded-md border border-brand-200 text-brand-600 shadow-sm ${item.quantity <= 1 ? 'opacity-50 cursor-not-allowed' : 'hover:border-brand-300'}`}
+                            className={`w-7 h-7 flex items-center justify-center bg-white rounded-md border border-brand-orange-200 text-black shadow-sm transition-all ${item.quantity <= 1 ? 'opacity-50 cursor-not-allowed' : 'hover:border-brand-orange-900'}`}
                             disabled={item.quantity <= 1}
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="text-sm font-bold text-brand-800 w-4 text-center">{item.quantity}</span>
+                          <span className="text-sm font-bold text-black w-4 text-center">{item.quantity}</span>
                           <button
                             onClick={() => onUpdateQuantity(item.id, 1)}
-                            className="w-7 h-7 flex items-center justify-center bg-white rounded-md border border-brand-200 text-brand-600 hover:border-brand-300 shadow-sm"
+                            className="w-7 h-7 flex items-center justify-center bg-white rounded-md border border-brand-orange-200 text-black hover:border-brand-orange-900 transition-all shadow-sm"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
@@ -93,7 +93,7 @@ const CartDrawer = ({ isOpen, onClose, cart, onRemove, onUpdateQuantity, onCheck
 
                         <button
                           onClick={() => onRemove(item.id)}
-                          className="p-2 text-red-500 bg-red-50 hover:bg-red-100 rounded-lg border border-red-100 transition-colors shadow-sm"
+                          className="p-2 text-red-500 bg-red-50 hover:bg-red-100 rounded-lg border border-red-100 hover:border-brand-orange-900 transition-all shadow-sm"
                           title="Remove Item"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -108,14 +108,14 @@ const CartDrawer = ({ isOpen, onClose, cart, onRemove, onUpdateQuantity, onCheck
 
           {/* Footer */}
           {cart.length > 0 && (
-            <div className="p-6 border-t border-brand-100 bg-brand-50/50">
+            <div className="p-6 border-t border-brand-orange-100 bg-brand-orange-50/50">
               <div className="flex justify-between items-center mb-4">
-                <span className="text-brand-600">{t.subtotal}</span>
-                <span className="text-2xl font-serif font-bold text-brand-900">${total.toFixed(2)}</span>
+                <span className="text-black">{t.subtotal}</span>
+                <span className="text-2xl font-serif font-bold text-black">${total.toFixed(2)}</span>
               </div>
               <button
                 onClick={onCheckout}
-                className="w-full bg-brand-800 text-brand-50 py-4 rounded-xl font-bold text-lg hover:bg-brand-700 transition-all flex items-center justify-center shadow-lg hover:shadow-xl active:scale-[0.98]"
+                className="w-full bg-transparent text-black py-4 rounded-xl font-bold text-lg hover:bg-brand-orange-900 hover:text-black transition-all flex items-center justify-center shadow-lg hover:shadow-xl active:scale-[0.98] border-2 border-brand-orange-900"
               >
                 {t.proceedCheckout} <ArrowRight className="w-5 h-5 ml-2" />
               </button>
